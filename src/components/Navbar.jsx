@@ -35,7 +35,16 @@ export default function Navbar() {
   const isAdmin = String(user?.role || "").toLowerCase() === "admin";
 
   const navItems = useMemo(() => {
-    const items = [
+    if (!isAdmin) {
+      return [
+        {
+          label: "Punch Status",
+          to: "/punch-status",
+        },
+      ];
+    }
+
+    return [
       {
         label: "Punch",
         to: "/punch",
@@ -44,22 +53,15 @@ export default function Navbar() {
         label: "Punch Status",
         to: "/punch-status",
       },
+      {
+        label: "Edit Attendance",
+        to: "/admin/attendance/edit",
+      },
+      {
+        label: "Reports",
+        to: "/attendance/report",
+      },
     ];
-
-    if (isAdmin) {
-      items.push(
-        {
-          label: "Edit Attendance",
-          to: "/admin/attendance/edit",
-        },
-        {
-          label: "Reports",
-          to: "/attendance/report",
-        },
-      );
-    }
-
-    return items;
   }, [isAdmin]);
 
   const handleLogout = () => {
